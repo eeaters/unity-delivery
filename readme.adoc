@@ -2,5 +2,17 @@
 致力于统一不同配送渠道的平台。提供一个集中式的解决方案，
 使用户能够轻松访问并管理来自多种配送渠道的服务。
 
-== 接入情况
-include::doc/对接进度.adoc[]
+== 渠道接入情况
+
+|====
+| 渠道 |  是否完成自测 | 开放平台
+
+| 美团 |  ❌ | https://peisong.meituan.com/tscc/docNew[美团配送开放平台]
+| 顺丰同城  | ✅ | https://commit-openic.sf-express.com/open/api/docs/index#/apidoc[顺丰同城开放平台]
+| 达达 |  ✅ | https://newopen.imdada.cn/#/development/file/orderIndex[达达快送开放平台]
+|====
+
+[NOTE]
+====
+账号支持个人用户的会进行自测。不支持个人账号的请自行自测
+====
