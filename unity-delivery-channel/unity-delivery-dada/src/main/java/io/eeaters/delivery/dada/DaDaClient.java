@@ -99,7 +99,7 @@ public class DaDaClient implements ChannelClient {
                     result.setContent(response.getResult().getStatusMsg());
                     result.setRiderName(response.getResult().getTransporterName());
                     result.setRiderPhone(response.getResult().getTransporterPhone());
-                    result.setDeliveryStatus(response.getResult().getStatusCode());
+//                    result.setStatusEnum(response.getResult().getStatusCode());
                     return result;
                 }).orElseThrow(() -> new DeliveryRemoteException(response.getCode(), response.getMsg()));
     }

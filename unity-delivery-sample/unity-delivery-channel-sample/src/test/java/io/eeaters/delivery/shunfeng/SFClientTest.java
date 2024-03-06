@@ -46,6 +46,7 @@ public class SFClientTest {
     public void queryDelivery() {
         QueryDeliveryInfoReq queryDeliveryInfoReq = new QueryDeliveryInfoReq();
         queryDeliveryInfoReq.setStoreCode("999999");
+        queryDeliveryInfoReq.setDeliveryCode("1709739160355");
         QueryDeliveryInfoResp delivery = new SFClient().queryDeliveryInfo(mockSF(), queryDeliveryInfoReq);
         Assert.assertNotNull(delivery);
     }

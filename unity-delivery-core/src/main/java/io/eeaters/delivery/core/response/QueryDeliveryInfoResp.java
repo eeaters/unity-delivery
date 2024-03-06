@@ -1,5 +1,6 @@
 package io.eeaters.delivery.core.response;
 
+import io.eeaters.delivery.core.enums.DeliveryStatusEnum;
 import lombok.Data;
 
 @Data
@@ -8,7 +9,7 @@ public class QueryDeliveryInfoResp  {
     /**
      * 最新配送状态
      */
-    private Integer deliveryStatus;
+    private DeliveryStatusEnum statusEnum;
     /**
      * 骑手名字
      */
