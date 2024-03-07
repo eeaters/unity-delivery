@@ -16,6 +16,7 @@ import io.eeaters.delivery.dada.convert.DaDaCreateDeliveryReqConverter;
 import io.eeaters.delivery.core.Account;
 import io.eeaters.delivery.core.ChannelClient;
 import io.eeaters.delivery.core.request.CreateDeliveryReq;
+import io.eeaters.delivery.dada.enums.DaDaDeliveryStatus;
 import io.eeaters.delivery.dada.request.DaDaCancelDeliveryReq;
 import io.eeaters.delivery.dada.request.DaDaCreateDeliveryReq;
 import io.eeaters.delivery.dada.request.DaDaQueryDeliveryInfoReq;
@@ -99,7 +100,7 @@ public class DaDaClient implements ChannelClient {
                     result.setContent(response.getResult().getStatusMsg());
                     result.setRiderName(response.getResult().getTransporterName());
                     result.setRiderPhone(response.getResult().getTransporterPhone());
-//                    result.setStatusEnum(response.getResult().getStatusCode());
+                    result.setStatusEnum(DaDaDeliveryStatus.of(response.getResult().getStatusCode()).getStatusEnum());
                     return result;
                 }).orElseThrow(() -> new DeliveryRemoteException(response.getCode(), response.getMsg()));
     }

@@ -56,8 +56,8 @@ public class DaDaClientTest {
     public void queryDelivery() {
         QueryDeliveryInfoReq queryDeliveryInfoReq = new QueryDeliveryInfoReq();
         queryDeliveryInfoReq.setDeliveryCode("1709305666281");
-        new DaDaClient().queryDeliveryInfo(mockDaDa(), queryDeliveryInfoReq);
-
+        QueryDeliveryInfoResp resp = new DaDaClient().queryDeliveryInfo(mockDaDa(), queryDeliveryInfoReq);
+        Assert.assertNotNull(resp);
     }
 
     @Test

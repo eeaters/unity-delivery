@@ -13,7 +13,7 @@ import java.util.Objects;
 @Getter
 public enum SFDeliveryStatus {
 
-    CREATE(1, DeliveryStatusEnum.CHANNEL_RECEIVE,"订单创建"),
+    CHANNEL_RECEIVE(1, DeliveryStatusEnum.CHANNEL_RECEIVE,"订单创建"),
 
     CANCEL(2, DeliveryStatusEnum.CANCEL, "订单取消"),
 
@@ -24,6 +24,7 @@ public enum SFDeliveryStatus {
     DELIVERING(15, DeliveryStatusEnum.DELIVERING, "配送员配送中"),
 
     COMPLETED(17, 1, DeliveryStatusEnum.COMPLETE, "配送员完成订单"),
+
     COMPLETED_RETURN(17, 2, DeliveryStatusEnum.COMPLETE_RETURN, "配送员完成订单-退回商家"),
 
     ERROR(91, DeliveryStatusEnum.EXCEPTION, "订单异常"),
@@ -46,11 +47,11 @@ public enum SFDeliveryStatus {
         this.desc = desc;
     }
 
-    public static SFDeliveryStatus valueOf(Integer sfCode) {
-        return valueOf(sfCode, 1);
+    public static SFDeliveryStatus of(Integer sfCode) {
+        return of(sfCode, 1);
     }
 
-    public static SFDeliveryStatus valueOf(Integer sfCode, Integer receiptType) {
+    public static SFDeliveryStatus of(Integer sfCode, Integer receiptType) {
         for (SFDeliveryStatus value : values()) {
             if (Objects.equals(value.sfCode, sfCode) && Objects.equals(receiptType, value.receiptType)) {
                 return value;

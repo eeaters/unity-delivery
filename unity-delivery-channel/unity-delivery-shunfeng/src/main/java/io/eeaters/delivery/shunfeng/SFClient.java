@@ -90,7 +90,7 @@ public class SFClient implements ChannelClient {
                     QueryDeliveryInfoResp result = new QueryDeliveryInfoResp();
                     result.setRiderName(response.getResult().getRiderName());
                     result.setRiderPhone(response.getResult().getRiderPhone());
-                    result.setStatusEnum(SFDeliveryStatus.valueOf(resp.getResult().getOrderStatus()).getStatusEnum());
+                    result.setStatusEnum(SFDeliveryStatus.of(resp.getResult().getOrderStatus()).getStatusEnum());
                     result.setContent(response.getResult().getStatusDesc());
                     return result;
                 }).orElseThrow(() -> new DeliveryRemoteException(response.getErrorCode(), response.getErrorMsg()));
