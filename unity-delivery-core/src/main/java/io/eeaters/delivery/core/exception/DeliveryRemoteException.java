@@ -3,7 +3,7 @@ package io.eeaters.delivery.core.exception;
 import lombok.Getter;
 
 @Getter
-public class DeliveryRemoteException extends RuntimeException{
+public class DeliveryRemoteException extends UnifyDeliveryException{
 
     private String code;
 
@@ -14,7 +14,6 @@ public class DeliveryRemoteException extends RuntimeException{
     }
 
     public DeliveryRemoteException(String code, String errorMessage) {
-        super(errorMessage);
         this.code = code;
         this.errorMessage = errorMessage;
     }

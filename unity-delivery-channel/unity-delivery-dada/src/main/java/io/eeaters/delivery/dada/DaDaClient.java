@@ -3,6 +3,7 @@ package io.eeaters.delivery.dada;
 import io.eeaters.delivery.core.cache.ExpireCache;
 import io.eeaters.delivery.core.cache.LocalCacheExpireCache;
 import io.eeaters.delivery.core.client.HttpClient;
+import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.exception.DeliveryRemoteException;
 import io.eeaters.delivery.core.request.CancelDeliveryReq;
 import io.eeaters.delivery.core.request.QueryDeliveryInfoReq;
@@ -126,6 +127,11 @@ public class DaDaClient implements ChannelClient {
                     Optional.ofNullable(re.getTransporterLng()).map(Double::valueOf).ifPresent(result::setRiderLng);
                 });
         return result;
+    }
+
+    @Override
+    public DeliveryChannelEnum supportChannel() {
+        return DeliveryChannelEnum.DADA;
     }
 
     //cityCode是达达的元数据，和account没有强关联，具之前问过达达的开发伙伴，这个变化基本在达达要支持新的区域进行配送时

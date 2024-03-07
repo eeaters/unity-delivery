@@ -3,6 +3,7 @@ package io.eeaters.delivery.shunfeng;
 import io.eeaters.delivery.core.Account;
 import io.eeaters.delivery.core.ChannelClient;
 import io.eeaters.delivery.core.client.HttpClient;
+import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.exception.DeliveryRemoteException;
 import io.eeaters.delivery.core.request.CancelDeliveryReq;
 import io.eeaters.delivery.core.request.CreateDeliveryReq;
@@ -109,6 +110,11 @@ public class SFClient implements ChannelClient {
                     return result;
                 }).orElseThrow(() -> new DeliveryRemoteException(response.getErrorCode(), response.getErrorMsg()));
 
+    }
+
+    @Override
+    public DeliveryChannelEnum supportChannel() {
+        return DeliveryChannelEnum.SF;
     }
 
     private <T> SFBaseResponse<T> handlerInternal(SFUrlToRespTypeEnum typeEnum, Object param, Account account) {

@@ -2,6 +2,7 @@ package io.eeaters.delivery.meituan;
 
 import io.eeaters.delivery.core.Account;
 import io.eeaters.delivery.core.ChannelClient;
+import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.request.CancelDeliveryReq;
 import io.eeaters.delivery.core.request.CreateDeliveryReq;
 import io.eeaters.delivery.core.request.QueryDeliveryInfoReq;
@@ -39,6 +40,11 @@ public class MTClient implements ChannelClient {
     @Override
     public QueryRiderPositionResp queryRiderPosition(Account account, QueryRiderPositionReq queryRiderPositionReq) {
         return null;
+    }
+
+    @Override
+    public DeliveryChannelEnum supportChannel() {
+        return DeliveryChannelEnum.MT;
     }
 
 }

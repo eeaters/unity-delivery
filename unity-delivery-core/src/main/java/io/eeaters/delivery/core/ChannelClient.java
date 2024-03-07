@@ -1,5 +1,6 @@
 package io.eeaters.delivery.core;
 
+import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.request.CancelDeliveryReq;
 import io.eeaters.delivery.core.request.CreateDeliveryReq;
 import io.eeaters.delivery.core.request.QueryDeliveryInfoReq;
@@ -17,4 +18,9 @@ public interface ChannelClient {
     QueryDeliveryInfoResp queryDeliveryInfo(Account account, QueryDeliveryInfoReq queryDeliveryInfoReq);
 
     QueryRiderPositionResp queryRiderPosition(Account account, QueryRiderPositionReq queryRiderPositionReq);
+
+    DeliveryChannelEnum supportChannel();
+
+
+
 }
