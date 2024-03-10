@@ -2,7 +2,9 @@ package io.eeaters.delivery.dada;
 
 import io.eeaters.delivery.core.Account;
 import io.eeaters.delivery.core.util.JsonUtils;
+import io.eeaters.delivery.dada.request.DaDaStatusCallBackReq;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.Md5Crypt;
 
 import java.time.Instant;
 import java.util.*;
@@ -21,6 +23,21 @@ public abstract class DaDaSignGenerate {
         data.put("body", body);
         data.put("signature", signature(data, account.getAppSecret()));
         return data;
+    }
+
+    public static boolean verify(DaDaStatusCallBackReq callBackReq) {
+        Object sign = callBackReq.getSignature();
+
+        List<String> signField = List.of(
+                callBackReq.getClientId(),
+                callBackReq.getOrderId(),
+                String.valueOf(callBackReq.getUpdateTime())
+        );
+        String signStr = signField.stream()
+                .sorted()
+                .collect(Collectors.joining());
+
+        return Objects.equals(DigestUtils.md5Hex(signStr), sign);
     }
 
     private static String signature(Map<String, Object> data, String appSecret) {
