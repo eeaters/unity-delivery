@@ -2,13 +2,20 @@ package io.eeaters.delivery.core;
 
 import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.exception.UnsupportedException;
+import io.eeaters.delivery.core.request.CallBackDeliveryReq;
 import io.eeaters.delivery.core.util.ServiceLoaderUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ChannelClientFactory {
 
     private final List<ChannelClient> clientList = ServiceLoaderUtils.loadSPI(ChannelClient.class);
+
+    private final List<CallBackHandler> generateList = ServiceLoaderUtils.loadSPI(CallBackHandler.class);
+
+    private List<CallBackListener> callBackListeners = new ArrayList<>();
 
     public DeliveryRelateAccountLookUp accountLookUp;
 
@@ -22,7 +29,7 @@ public class ChannelClientFactory {
                 return channelClient;
             }
         }
-        throw new UnsupportedException("不支持的渠道");
+        throw new UnsupportedException("不支持的渠道: " + channelEnum.name());
     }
 
     /**
@@ -33,14 +40,33 @@ public class ChannelClientFactory {
      * @return 直接吐给三方的响应信息
      */
     public Object callBackHandler(String callBackStr, String sign, DeliveryChannelEnum channelEnum) {
-        CallBackContext callBackContext = new CallBackContext(callBackStr,sign, accountLookUp);
+        CallBackHandler callBackHandler = getCallBackHandler(channelEnum);
 
-        getClient(channelEnum).callBackHandler(callBackContext);
-        if (callBackContext.getSignVerify()) {
-            //这里增加一个消息通知
+        CallBackDeliveryReq deliveryReq = callBackHandler.handlerCallBack(callBackStr, sign, accountLookUp);
+        if (deliveryReq.getSignVerify()) {
+            notifyListener(deliveryReq);
         }
+        return callBackHandler.generate(deliveryReq.getSignVerify());
 
-        return callBackContext.returnResult();
+    }
+
+    public void setCallBackListener(CallBackListener... callBackListeners) {
+        this.callBackListeners.addAll(Arrays.asList(callBackListeners));
+    }
+
+    void notifyListener(CallBackDeliveryReq deliveryReq) {
+        for (CallBackListener callBackListener : callBackListeners) {
+            callBackListener.eventListener(deliveryReq);
+        }
+    }
+
+    CallBackHandler getCallBackHandler(DeliveryChannelEnum channelEnum) {
+        for (CallBackHandler callBackHandler : generateList) {
+            if (callBackHandler.supportChannel() == channelEnum) {
+                return callBackHandler;
+            }
+        }
+        throw new UnsupportedException("不支持的渠道:" + channelEnum.name());
     }
 
 }

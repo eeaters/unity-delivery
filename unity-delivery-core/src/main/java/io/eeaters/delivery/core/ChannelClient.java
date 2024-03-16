@@ -47,13 +47,7 @@ public interface ChannelClient {
     QueryRiderPositionResp queryRiderPosition(Account account, QueryRiderPositionReq queryRiderPositionReq);
 
 
-    /**
-     * 回调处理
-     *
-     * @param callBackContext 回调上下文
-     * @return 系统识别的回调信息
-     */
-    void callBackHandler(CallBackContext callBackContext);
+
 
 
     /**

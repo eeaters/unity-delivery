@@ -9,7 +9,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public enum DaDaUrlToRespTypeEnum {
+enum DaDaUrlToRespTypeEnum {
 
     CITY_CODE("api/cityCode/list", null) {
         @Override

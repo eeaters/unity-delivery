@@ -44,11 +44,6 @@ public class MTClient implements ChannelClient {
     }
 
     @Override
-    public void callBackHandler(CallBackContext callBackContext) {
-
-    }
-
-    @Override
     public DeliveryChannelEnum supportChannel() {
         return DeliveryChannelEnum.MT;
     }

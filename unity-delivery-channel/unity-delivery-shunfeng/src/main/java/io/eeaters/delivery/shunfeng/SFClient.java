@@ -1,8 +1,7 @@
 package io.eeaters.delivery.shunfeng;
 
 import io.eeaters.delivery.core.Account;
-import io.eeaters.delivery.core.CallBackContext;
-import io.eeaters.delivery.core.CallBackResultGenerate;
+import io.eeaters.delivery.core.CallBackHandler;
 import io.eeaters.delivery.core.ChannelClient;
 import io.eeaters.delivery.core.client.HttpClient;
 import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
@@ -10,15 +9,12 @@ import io.eeaters.delivery.core.exception.DeliveryRemoteException;
 import io.eeaters.delivery.core.request.*;
 import io.eeaters.delivery.core.response.*;
 import io.eeaters.delivery.core.util.JsonUtils;
-import io.eeaters.delivery.core.util.MapUtils;
 import io.eeaters.delivery.core.util.UnitUtils;
 import io.eeaters.delivery.shunfeng.convert.*;
 import io.eeaters.delivery.shunfeng.enums.SFDeliveryStatus;
 import io.eeaters.delivery.shunfeng.request.*;
 import io.eeaters.delivery.shunfeng.response.*;
 
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 import static io.eeaters.delivery.core.util.UnitUtils.secondToLocalDateTime;
@@ -26,13 +22,7 @@ import static io.eeaters.delivery.shunfeng.SFUrlToRespTypeEnum.*;
 
 public class SFClient implements ChannelClient {
 
-    private static final Map<String, Object> successResult = MapUtils.initDoubleEntryMap("error_code", 0,
-            "error_msg", "success");
-    private static final Map<String, Object> failureResult = MapUtils.initDoubleEntryMap("error_code", -1,
-            "error_msg", "failure");
-
-    private static final CallBackResultGenerate resultGenerate = verify -> verify ? successResult : failureResult;
-
+    private static final CallBackHandler resultGenerate = new SFCallBackHandler();
 
     HttpClient httpClient = new HttpClient.Default();
 
@@ -120,17 +110,6 @@ public class SFClient implements ChannelClient {
                     return result;
                 }).orElseThrow(() -> new DeliveryRemoteException(response.getErrorCode(), response.getErrorMsg()));
 
-    }
-
-    @Override
-    public void callBackHandler(CallBackContext callBackContext) {
-        CallBackDeliveryReq deliveryReq = SFToCallBackDeliveryReqConverter.convert(callBackContext.getCallbackStr());
-        Account account = callBackContext.getAccountLookUp()
-                .getByDeliveryCode(supportChannel(), deliveryReq.getDeliveryCode());
-        String sign = SignGenerate.generateSign(callBackContext.getCallbackStr(),
-                account.getAppId(), account.getAppKey());
-
-        callBackContext.init(Objects.equals(sign, callBackContext.getSign()), resultGenerate, deliveryReq);
     }
 
     @Override

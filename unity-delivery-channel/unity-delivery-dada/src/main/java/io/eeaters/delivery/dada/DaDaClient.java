@@ -1,7 +1,6 @@
 package io.eeaters.delivery.dada;
 
-import io.eeaters.delivery.core.CallBackContext;
-import io.eeaters.delivery.core.CallBackResultGenerate;
+import io.eeaters.delivery.core.CallBackHandler;
 import io.eeaters.delivery.core.cache.ExpireCache;
 import io.eeaters.delivery.core.cache.LocalCacheExpireCache;
 import io.eeaters.delivery.core.client.HttpClient;
@@ -10,14 +9,12 @@ import io.eeaters.delivery.core.exception.DeliveryRemoteException;
 import io.eeaters.delivery.core.request.*;
 import io.eeaters.delivery.core.response.*;
 import io.eeaters.delivery.core.util.JsonUtils;
-import io.eeaters.delivery.core.util.MapUtils;
 import io.eeaters.delivery.core.util.ServiceLoaderUtils;
 import io.eeaters.delivery.core.util.UnitUtils;
 import io.eeaters.delivery.dada.convert.DaDaCancelDeliveryReqConverter;
 import io.eeaters.delivery.dada.convert.DaDaCreateDeliveryReqConverter;
 import io.eeaters.delivery.core.Account;
 import io.eeaters.delivery.core.ChannelClient;
-import io.eeaters.delivery.dada.convert.DaDaToCallBackDeliveryReqConverter;
 import io.eeaters.delivery.dada.enums.DaDaDeliveryStatus;
 import io.eeaters.delivery.dada.request.*;
 import io.eeaters.delivery.dada.response.*;
@@ -34,16 +31,12 @@ import static io.eeaters.delivery.dada.DaDaUrlToRespTypeEnum.*;
 @Slf4j
 public class DaDaClient implements ChannelClient {
 
-
-    private static final Map<String, Object> successResult = MapUtils.initSingleEntryMap("code", 200);
-    private static final Map<String, Object> failureResult = MapUtils.initSingleEntryMap("code", 0);
-
     final HttpClient httpClient = new HttpClient.Default();
 
     ExpireCache<String> expireCache = ServiceLoaderUtils.loadFirstSPI(ExpireCache.class)
             .orElse(new LocalCacheExpireCache<String>());
 
-    private static final CallBackResultGenerate resultGenerate = verify -> verify ? successResult : failureResult;
+    private static final CallBackHandler resultGenerate = new DaDaCallBackHandler();
 
 
 
@@ -134,14 +127,6 @@ public class DaDaClient implements ChannelClient {
         return result;
     }
 
-    @Override
-    public void callBackHandler(CallBackContext callBackContext) {
-        DaDaStatusCallBackReq callBackReq = JsonUtils.readValue(callBackContext.getCallbackStr(),
-                DaDaStatusCallBackReq.class);
-
-        boolean verify = DaDaSignGenerate.verify(callBackReq);
-        callBackContext.init(verify, resultGenerate, DaDaToCallBackDeliveryReqConverter.convert(callBackReq));
-    }
 
 
     @Override

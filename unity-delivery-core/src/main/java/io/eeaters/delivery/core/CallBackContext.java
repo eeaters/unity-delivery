@@ -6,17 +6,31 @@ import lombok.Getter;
 @Getter
 public class CallBackContext {
 
+    /**
+     * 三方回调原始报文
+     */
     private final String callbackStr;
 
+    /**
+     * 三方回调的签名
+     */
     private final String sign;
 
+    /**
+     * 根据deliveryCode查账号信息
+     */
     private final DeliveryRelateAccountLookUp accountLookUp;
 
+    /**
+     * 统一认证后的回调信息
+     */
     private CallBackDeliveryReq deliveryReq;
 
-    private Boolean signVerify = Boolean.TRUE;
+    /**
+     * 校验是否通过
+     */
+    private Boolean signVerify = Boolean.FALSE;
 
-    private CallBackResultGenerate resultGenerate;
 
     public CallBackContext(String callbackStr, String sign, DeliveryRelateAccountLookUp accountLookUp) {
         this.callbackStr = callbackStr;
@@ -24,14 +38,9 @@ public class CallBackContext {
         this.sign = sign;
     }
 
-    public void init(Boolean signVerify, CallBackResultGenerate generate, CallBackDeliveryReq deliveryReq) {
+    public void init(Boolean signVerify, CallBackDeliveryReq deliveryReq) {
         this.signVerify = signVerify;
-        this.resultGenerate = generate;
         this.deliveryReq = deliveryReq;
     }
 
-
-    public Object returnResult() {
-        return resultGenerate.generate(signVerify);
-    }
 }
