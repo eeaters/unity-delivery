@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>unity-delivery-channel-sample</module>
-        <module>unity-delivery-core-sample</module>
     </modules>
 
     <dependencies>
