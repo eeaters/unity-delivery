@@ -1,5 +1,6 @@
 package io.eeaters.delivery.dada.convert;
 
+import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.request.CallBackDeliveryReq;
 import io.eeaters.delivery.dada.enums.DaDaDeliveryStatus;
 import io.eeaters.delivery.dada.request.DaDaStatusCallBackReq;
@@ -17,6 +18,7 @@ public interface DaDaToCallBackDeliveryReqConverter {
         );
         result.setRiderName(callBackReq.getDmName());
         result.setRiderPhone(callBackReq.getDmMobile());
+        result.setChannelEnum(DeliveryChannelEnum.DADA);
         return result;
     }
 

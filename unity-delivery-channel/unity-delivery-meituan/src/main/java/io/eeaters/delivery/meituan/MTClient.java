@@ -1,7 +1,6 @@
 package io.eeaters.delivery.meituan;
 
 import io.eeaters.delivery.core.Account;
-import io.eeaters.delivery.core.CallBackContext;
 import io.eeaters.delivery.core.ChannelClient;
 import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.request.CancelDeliveryReq;

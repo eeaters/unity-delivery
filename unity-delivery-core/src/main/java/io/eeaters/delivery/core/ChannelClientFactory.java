@@ -15,7 +15,7 @@ public class ChannelClientFactory {
 
     private final List<CallBackHandler> generateList = ServiceLoaderUtils.loadSPI(CallBackHandler.class);
 
-    private List<CallBackListener> callBackListeners = new ArrayList<>();
+    private final List<CallBackListener> callBackListeners = new ArrayList<>();
 
     public DeliveryRelateAccountLookUp accountLookUp;
 
@@ -44,7 +44,7 @@ public class ChannelClientFactory {
 
         CallBackDeliveryReq deliveryReq = callBackHandler.handlerCallBack(callBackStr, sign, accountLookUp);
         if (deliveryReq.getSignVerify()) {
-            notifyListener(deliveryReq);
+            notifyListener(callBackStr,deliveryReq);
         }
         return callBackHandler.generate(deliveryReq.getSignVerify());
 
@@ -54,9 +54,9 @@ public class ChannelClientFactory {
         this.callBackListeners.addAll(Arrays.asList(callBackListeners));
     }
 
-    void notifyListener(CallBackDeliveryReq deliveryReq) {
+    void notifyListener(String callBackStr,CallBackDeliveryReq deliveryReq) {
         for (CallBackListener callBackListener : callBackListeners) {
-            callBackListener.eventListener(deliveryReq);
+            callBackListener.eventListener(callBackStr, deliveryReq);
         }
     }
 

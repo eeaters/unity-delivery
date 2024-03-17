@@ -1,6 +1,7 @@
 package io.eeaters.delivery.core.request;
 
 import io.eeaters.delivery.core.CallBackHandler;
+import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
 import io.eeaters.delivery.core.enums.DeliveryStatusEnum;
 import lombok.Data;
 
@@ -24,6 +25,8 @@ public class CallBackDeliveryReq {
     private Integer actuallyFee;
 
     private BigDecimal distance;
+
+    private DeliveryChannelEnum channelEnum;
 
     private Boolean signVerify;
 

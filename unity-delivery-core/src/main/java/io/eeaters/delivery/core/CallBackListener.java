@@ -7,6 +7,6 @@ import io.eeaters.delivery.core.request.CallBackDeliveryReq;
  */
 public interface CallBackListener {
 
-    void eventListener(CallBackDeliveryReq callBackDeliveryReq);
+    void eventListener(String callBackStr, CallBackDeliveryReq callBackDeliveryReq);
 
 }
