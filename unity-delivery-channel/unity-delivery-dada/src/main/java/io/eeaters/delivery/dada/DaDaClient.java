@@ -5,9 +5,11 @@ import io.eeaters.delivery.core.cache.ExpireCache;
 import io.eeaters.delivery.core.cache.LocalCacheExpireCache;
 import io.eeaters.delivery.core.client.HttpClient;
 import io.eeaters.delivery.core.enums.DeliveryChannelEnum;
+import io.eeaters.delivery.core.enums.EnvEnum;
 import io.eeaters.delivery.core.exception.DeliveryRemoteException;
 import io.eeaters.delivery.core.request.*;
 import io.eeaters.delivery.core.response.*;
+import io.eeaters.delivery.core.util.CollectionUtils;
 import io.eeaters.delivery.core.util.JsonUtils;
 import io.eeaters.delivery.core.util.ServiceLoaderUtils;
 import io.eeaters.delivery.core.util.UnitUtils;
@@ -26,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static io.eeaters.delivery.dada.DaDaConstants.PROD_URL_PREFIX;
+import static io.eeaters.delivery.dada.DaDaConstants.QA_URL_PREFIX;
 import static io.eeaters.delivery.dada.DaDaUrlToRespTypeEnum.*;
 
 @Slf4j
@@ -107,7 +111,7 @@ public class DaDaClient implements ChannelClient {
     @Override
     public QueryRiderPositionResp queryRiderPosition(Account account, QueryRiderPositionReq queryRiderPositionReq) {
         DaDaQueryRiderPositionReq req = new DaDaQueryRiderPositionReq();
-        req.setOrderIds(List.of(queryRiderPositionReq.getDeliveryCode()));
+        req.setOrderIds(CollectionUtils.ofList(queryRiderPositionReq.getDeliveryCode()));
         DaDaBaseResponse<List<DaDaQueryRiderPositionResp>> response = handlerInternal(QUERY_RIDER, req, account);
         assert response != null;
         if (!response.isSuccess()) {
@@ -157,11 +161,8 @@ public class DaDaClient implements ChannelClient {
 
     private <T> DaDaBaseResponse<T> handlerInternal(DaDaUrlToRespTypeEnum typeEnum, Object param, Account account) {
         Map<String, Object> params = DaDaSignGenerate.generateParams(account, JsonUtils.writeValueToString(param));
-        String url = switch (account.getEnv()) {
-            case PROD -> DaDaConstants.PROD_URL_PREFIX + typeEnum.getUrl();
-            default -> DaDaConstants.QA_URL_PREFIX + typeEnum.getUrl();
-        };
-        String response = httpClient.post(url, params);
+        String prefix = account.getEnv() == EnvEnum.PROD ? PROD_URL_PREFIX : QA_URL_PREFIX;
+        String response = httpClient.post(prefix+ typeEnum.getUrl(), params);
         return JsonUtils.readValue(response, typeEnum.getResponseType());
     }
 

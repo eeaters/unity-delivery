@@ -13,8 +13,8 @@
     <artifactId>unity-delivery-channel</artifactId>
 
     <modules>
-        <module>unity-delivery-meituan</module>
         <module>unity-delivery-shunfeng</module>
+        <module>unity-delivery-dada</module>
     </modules>
 
 

@@ -47,10 +47,13 @@ public interface HttpClient {
             }
 
             try {
-                String requestBody = switch (payload) {
-                    case String str -> str;
-                    default -> objectMapper.writeValueAsString(payload);
-                };
+                String requestBody ;
+                if (payload instanceof String) {
+                    requestBody = (String) payload;
+                }else{
+                    requestBody = objectMapper.writeValueAsString(payload);
+                }
+
                 RequestBody body = RequestBody.create(requestBody, JSON_TYPE);
 
                 Request request = new Request.Builder()

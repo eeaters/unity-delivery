@@ -28,11 +28,11 @@ public abstract class DaDaSignGenerate {
     public static boolean verify(DaDaStatusCallBackReq callBackReq) {
         Object sign = callBackReq.getSignature();
 
-        List<String> signField = List.of(
-                callBackReq.getClientId(),
-                callBackReq.getOrderId(),
-                String.valueOf(callBackReq.getUpdateTime())
-        );
+        List<String> signField = new ArrayList<>();
+        signField.add(callBackReq.getClientId());
+        signField.add(callBackReq.getOrderId());
+        signField.add(String.valueOf(callBackReq.getUpdateTime()));
+
         String signStr = signField.stream()
                 .sorted()
                 .collect(Collectors.joining());

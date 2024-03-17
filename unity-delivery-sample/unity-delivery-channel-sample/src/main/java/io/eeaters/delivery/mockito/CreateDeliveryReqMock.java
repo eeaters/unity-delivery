@@ -1,9 +1,9 @@
 package io.eeaters.delivery.mockito;
 
 import io.eeaters.delivery.core.request.CreateDeliveryReq;
+import io.eeaters.delivery.core.util.CollectionUtils;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface CreateDeliveryReqMock {
 
@@ -26,7 +26,7 @@ public interface CreateDeliveryReqMock {
         CreateDeliveryReq.ProductInfo productInfo = new CreateDeliveryReq.ProductInfo();
         productInfo.setProductName("测试商品");
         productInfo.setProductNum(1);
-        createDeliveryDTO.setProductInfoList(List.of(productInfo));
+        createDeliveryDTO.setProductInfoList(CollectionUtils.ofList(productInfo));
         createDeliveryDTO.setTotalPrice(1200);
 
         createDeliveryDTO.setDeliveryCode(System.currentTimeMillis());
