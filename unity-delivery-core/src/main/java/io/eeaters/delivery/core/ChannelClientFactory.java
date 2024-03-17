@@ -7,6 +7,7 @@ import io.eeaters.delivery.core.util.ServiceLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class ChannelClientFactory {
@@ -51,7 +52,11 @@ public class ChannelClientFactory {
     }
 
     public void setCallBackListener(CallBackListener... callBackListeners) {
-        this.callBackListeners.addAll(Arrays.asList(callBackListeners));
+        this.setCallBackListener(Arrays.asList(callBackListeners));
+    }
+
+    public void setCallBackListener(Collection<CallBackListener> callBackListeners) {
+        this.callBackListeners.addAll(callBackListeners);
     }
 
     void notifyListener(String callBackStr,CallBackDeliveryReq deliveryReq) {

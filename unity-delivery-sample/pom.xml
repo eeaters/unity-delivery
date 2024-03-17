@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>unity-delivery-channel-sample</module>
+        <module>unity-delivery-springboot-sample</module>
     </modules>
 
     <dependencies>

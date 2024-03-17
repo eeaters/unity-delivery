@@ -29,6 +29,9 @@
 |  回调   | ✅| ❌
 |====
 
+== SpringBoot项目中引入
+- https://github.com/eeaters/unity-delivery/tree/master/unity-delivery-sample/unity-delivery-springboot-sample[spring-boot-sample示例]
+
 == PreCondition
 1. 所有渠道是用的均使用自身的店铺ID和自身平台的订单号。提前将门店配置在三方平台上
 2. 如果要用于生产，请针对自身公司业务进行测试后使用
